@@ -4,7 +4,7 @@ async function main() {
     console.log("Pyodide loaded.");
 
     // Load the pygame-ce package (the checkIntegrity option may be required based on your setup)
-    await pyodide.loadPackage(["pygame-ce"], { checkIntegrity: false });
+    await pyodide.loadPackage(["random", "sys", "pygame-ce", "noise"], { checkIntegrity: false });
     console.log("pygame-ce package loaded.");
 
     // Get the canvas element and expose it to Pyodide so pygame uses it for drawing.
