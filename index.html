@@ -1,15 +1,23 @@
 <!doctype html>
 <html>
   <head>
-      <script src="https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pyodide.js"></script>
+    <meta charset="UTF-8">
+    <title>Marching Squares via Pyodide & pygame-ce</title>
+    <style>
+      /* Basic styling for the canvas */
+      #canvas {
+        border: 1px solid black;
+        display: block;
+        margin: 20px auto;
+      }
+    </style>
+    <!-- Load Pyodide from the CDN -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pyodide.js"></script>
   </head>
   <body>
-    <script type="text/javascript">
-      async function main(){
-        let pyodide = await loadPyodide();
-        console.log(pyodide.runPython("1 + 2"));
-      }
-      main();
-    </script>
+    <!-- Canvas element which will serve as the rendering target for pygame -->
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <!-- Include your custom JS script -->
+    <script src="index.js"></script>
   </body>
 </html>
