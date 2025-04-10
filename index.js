@@ -1,42 +1,47 @@
 async function main() {
-    // Load Pyodide
-    let pyodide = await loadPyodide();
-    console.log("Pyodide loaded.");
+  // Load Pyodide.
+  let pyodide = await loadPyodide();
+  console.log("Pyodide loaded.");
 
-    // Load the pygame-ce package (the checkIntegrity option may be required based on your setup)
-    await pyodide.loadPackage(["random", "sys", "pygame-ce", "noise"], { checkIntegrity: false });
-    console.log("pygame-ce package loaded.");
+  // Load the pygame-ce package.
+  await pyodide.loadPackage(["pygame-ce"], { checkIntegrity: false });
+  console.log("pygame-ce package loaded.");
 
-    // Get the canvas element and expose it to Pyodide so pygame uses it for drawing.
-    const canvas = document.getElementById("canvas");
-    // The API below depends on your Pyodide build;
-    // Here, we set the canvas for SDL to render on using pyodide's exposed module
-    pyodide.canvas.setCanvas2D(canvas);
+  // Use micropip to install the 'noise' package, required by your Python code.
+  await pyodide.runPythonAsync(`
+import micropip
+await micropip.install("noise")
+  `);
+  console.log("noise package installed.");
 
-    // Optionally, tell SDL/pygame to use the canvas driver:
-    await pyodide.runPythonAsync(`
-  import os
-  os.environ["SDL_VIDEODRIVER"] = "canvas"  # Alternatively "webgl" may work
-    `);
+  // Get the canvas element from the document.
+  const canvas = document.getElementById("canvas");
+  // Expose the canvas to Pyodide's SDL/pygame integration.
+  pyodide.canvas.setCanvas2D(canvas);
 
-    // Fetch the contents of your python file "marchingsquares.py"
-    try {
-      let response = await fetch("marchingsquares.py");
-      if (!response.ok) {
-        throw new Error("Failed to load marchingsquares.py: " + response.statusText);
-      }
-      let code = await response.text();
-      console.log("Python code loaded from marchingsquares.py.");
+  // Set the SDL video driver to use the canvas.
+  await pyodide.runPythonAsync(`
+import os
+os.environ["SDL_VIDEODRIVER"] = "canvas"  # Alternatively, "webgl" may be tried if needed.
+  `);
+  console.log("SDL_VIDEODRIVER set to 'canvas'.");
 
-      // Run the Python code via Pyodide.
-      // Make sure your marchingsquares.py script is designed for asynchronous execution
-      // (e.g. using asyncio in its main loop) so it cooperates with the browser.
-      await pyodide.runPythonAsync(code);
-      console.log("Python code executed successfully.");
-    } catch (err) {
-      console.error("Error loading or executing Python code:", err);
+  // Fetch the contents of your python file "marchingsquares.py".
+  try {
+    let response = await fetch("marchingsquares.py");
+    if (!response.ok) {
+      throw new Error("Failed to load marchingsquares.py: " + response.statusText);
     }
-  }
+    let code = await response.text();
+    console.log("Python code loaded from marchingsquares.py.");
 
-  main();
-  
+    // Execute the Python code via Pyodide.
+    // Ensure your script is designed to cooperate with asynchronous execution.
+    await pyodide.runPythonAsync(code);
+    console.log("Python code executed successfully.");
+  } catch (err) {
+    console.error("Error loading or executing Python code:", err);
+  }
+}
+
+main();
