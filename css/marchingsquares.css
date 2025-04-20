@@ -1,0 +1,100 @@
+:root {
+    --bg-page: #f5f7fa;
+    --bg-panel: #ffffff;
+    --text-primary: #222;
+    --text-secondary: #4b5563;
+    --accent-color: #2563eb;
+    --accent-hover: #1d4ed8;
+    --code-bg: #f3f4f6;
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-page: #0f172a;
+        --bg-panel: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --accent-color: #60a5fa;
+        --accent-hover: #93c5fd;
+        --code-bg: #1e293b;
+        --shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+    }
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 2rem;
+}
+
+.demo {
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.demo-panel {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.demo-content,
+#editor {
+    flex: 1 1 550px;
+    box-sizing: border-box;
+    background: var(--bg-panel);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.demo-content canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    border-radius: 4px;
+}
+
+#editor {
+    overflow: hidden;
+}
+
+#editor .CodeMirror {
+    height: 500px;
+    line-height: 1.5;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    overflow: auto;
+    background: var(--code-bg);
+    color: var(--text-primary);
+    border-radius: 4px;
+}
+
+.demo-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.demo-explanation {
+    background: var(--bg-panel);
+    padding: 1.25rem 1.5rem;
+    border-left: 4px solid var(--accent-color);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.demo-explanation p {
+    margin: 0;
+}
