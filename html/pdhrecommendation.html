@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>PDH Recommendation App | Project</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <style>
+        .media-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .media-item {
+            max-width: 300px;
+            width: 100%;
+            display: block;
+        }
+        .media-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 0.25rem;
+        }
+        .media-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>PDH Recommendation App</h1>
+    <p>A community-powered meal review system for Panther Dining Hall at Florida Tech.</p>
+</header>
+
+<section class="overview">
+    <h2>Overview</h2>
+    <p>The PDH Recommendation App was built to give students at Florida Tech a voice in what meals are served at Panther Dining Hall. While meal recommendations are a future feature, the app currently allows users to:</p>
+    <ul>
+        <li>Review meals currently being served at PDH</li>
+        <li>Browse or search meal reviews via a clean, interactive dashboard</li>
+        <li>Write and vote on meal suggestions for PDH staff consideration</li>
+    </ul>
+</section>
+
+<section class="media-gallery">
+    <h2>Media Gallery</h2>
+    <div class="media-row">
+        <div class="media-column">
+            <img src="../assets/PDHRecommendationHome.png" alt="App Home" class="media-item">
+            <div class="media-caption">Home screen with the week's reviews and suggestions</div>
+        </div>
+        <div class="media-column">
+            <img src="../assets/PDHRecommendationDashboard.png" alt="Review Dashboard" class="media-item">
+            <div class="media-caption">Review dashboard with sample <br> recommendations and gamified elements</div>
+        </div>
+        <div class="media-column">
+            <img src="../assets/PDHRecommendationReview.png" alt="Meal Review" class="media-item">
+            <div class="media-caption">Meal reviewing interface</div>
+        </div>
+        <div class="media-column">
+            <img src="../assets/PDHRecommendationSuggestion.png" alt="Suggestion Screen" class="media-item">
+            <div class="media-caption">Suggestion writing interface</div>
+        </div>
+    </div>
+    <div class="media-row">
+        <div class="media-column">
+            <video class="media-item" controls>
+                <source src="../assets/PDHRecommendationVideo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="media-caption">Walkthrough of the app experience</div>
+        </div>
+    </div>
+</section>
+
+<section class="technical-details">
+    <h2>Technical Details</h2>
+    <ul>
+        <li><strong>Frontend:</strong> Flutter framework using Dart</li>
+        <li><strong>Backend:</strong> Python script for daily menu scraping from PDH sources</li>
+        <li><strong>Database:</strong> Firebase Firestore for data storage</li>
+        <li><strong>Authentication:</strong> Firebase Authentication for secure login</li>
+        <li><strong>Image Hosting:</strong> Firebase Storage for meal and suggestion images</li>
+    </ul>
+    <p>
+        <a href="https://github.com/starschmuck/pdh_recommendation" target="_blank" class="github-link">
+            View on GitHub
+        </a>
+    </p>
+</section>
+
+
+<footer>
+    <p><a href="../index.html">Back to Home</a></p>
+    <p>&copy; 2025 Alex Laureano. All rights reserved.</p>
+</footer>
+</body>
+</html>

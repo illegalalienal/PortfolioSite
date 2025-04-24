@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crosshatching Image Generator</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="../../css/global.css">
+  <link rel="stylesheet" type="text/css" href="../../css/demo.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+  <script src="https://ryanking13.github.io/pyodide-pygame-demo/dist/pyodide.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+  let editor;
+
+  async function main() {
+    let pyodide = await loadPyodide();
+    await pyodide.loadPackage(["pygame-ce"], { checkIntegrity: false });
+    await pyodide.loadPackage("micropip");
+
+    await pyodide.runPythonAsync(`
+import micropip
+await micropip.install("imageio")
+    `);
+
+    // STEP 1: Fetch bird.jpeg and write to FS
+    const response = await fetch("bird.jpeg");
+    const buffer = await response.arrayBuffer();
+    pyodide.FS.writeFile("bird.jpeg", new Uint8Array(buffer));
+
+    // STEP 2: Debug: list files in FS root (optional, but good for testing)
+    console.log("Files in Pyodide FS:", pyodide.FS.readdir("/home/pyodide"));
+
+    // STEP 3: Setup canvas for pygame
+    canvas = document.getElementById("canvas");
+    pyodide.canvas.setCanvas2D(canvas);
+/*
+    await pyodide.runPythonAsync(`
+import os
+os.environ["SDL_VIDEODRIVER"] = "canvas"
+`);
+*/
+
+    // STEP 4: Load and run Python code
+    const res = await fetch("crosshatching.py");
+    if (!res.ok) {
+      throw new Error("Could not load crosshatching.py");
+    }
+    const code = await res.text();
+
+    editor = CodeMirror(document.getElementById("editor"), {
+      value: code,
+      mode: "python",
+      lineNumbers: true,
+      theme: "dracula"
+    });
+
+    // Finally run the Python code
+    pyodide.runPythonAsync(code);
+  }
+
+  main();
+</script>
+
+
+<div class="demo">
+  <div class="demo-header"><em>Crosshatching Image Generator</em></div>
+  <div class="demo-explanation">
+    <p>This interactive demo uses Pygame and Pyodide to generate a crosshatching effect over a base image. The program loads an image, analyzes light intensity, and applies directional hatching strokes based on gradient or threshold mapping techniques.</p>
+  </div>
+
+  <div class="demo-panel">
+    <div class="demo-content">
+      <canvas id="canvas" width="600" height="500"></canvas>
+    </div>
+
+    <div id="editor"></div>
+  </div>
+</div>
+</body>
+</html>

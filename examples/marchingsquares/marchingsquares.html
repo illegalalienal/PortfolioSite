@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel = "stylesheet" type = "text/css" href = "../../css/global.css">
-    <link rel = "stylesheet" type = "text/css" href = "../../css/marchingsquares.css">
+    <link rel = "stylesheet" type = "text/css" href = "../../css/demo.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
@@ -13,7 +13,7 @@
 
 
 
-    <title>Pyodide Pygame Example</title>
+    <title>Marching Squares</title>
     <script src="https://ryanking13.github.io/pyodide-pygame-demo/dist/pyodide.js"></script>
 </head>
 <body>
@@ -27,9 +27,8 @@
         async function main(){
           let pyodide = await loadPyodide();
           await pyodide.loadPackage(["pygame-ce"], { checkIntegrity: false });
-
-            await pyodide.loadPackage("micropip");
-            await pyodide.runPythonAsync(`
+          await pyodide.loadPackage("micropip");
+          await pyodide.runPythonAsync(`
 import micropip
 await micropip.install("perlin-noise")
   `);
